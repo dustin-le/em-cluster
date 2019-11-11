@@ -11,7 +11,7 @@ def em_cluster(data_file, k, iterations):
 
     with open(data_file, 'r') as file:
         for line in file:
-            data.append(line.split()[0:2])
+            data.append(line.split()[0:-1])
     
     # Initialization
     data = np.array(data)
