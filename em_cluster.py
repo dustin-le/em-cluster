@@ -11,6 +11,9 @@ def em_cluster(data_file, k, iterations):
 
     with open(data_file, 'r') as file:
         for line in file:
+            if ',' in line:
+                data.append(line.split(', ')[0:-1])
+            else:
             data.append(line.split()[0:-1])
     
     # Initialization
