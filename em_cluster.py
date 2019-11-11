@@ -17,13 +17,15 @@ def em_cluster(data_file, k, iterations):
             data.append(line.split()[0:-1])
     
     # Initialization
-    data = np.array(data)
+    data = np.array(data).astype(float)
     rows = data.shape[0]
     columns = data.shape[1]
 
     # p[i][j] where i is the gaussian number and j is the data number
     # For each input, set one p value to 1, and the rest to 0
     p = np.zeros((k, rows))
+    mean = [0 for i in range(k)]
+    std = [0 for i in range(k)]
 
     # Randomly assign each point to a cluster
     for j in range(rows):
