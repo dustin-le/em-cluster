@@ -14,7 +14,7 @@ def em_cluster(data_file, k, iterations):
             if ',' in line:
                 data.append(line.split(', ')[0:-1])
             else:
-            data.append(line.split()[0:-1])
+                data.append(line.split()[0:-1])
     
     # Initialization
     data = np.array(data).astype(float)
@@ -35,5 +35,32 @@ def em_cluster(data_file, k, iterations):
     for j in range(rows):
         # Random gaussian is set to 1 for each j
         p[np.random.randint(low=0, high=k)][j] = 1
+
+    for _ in range(iterations):
+
+        # M-step - For each p_ij, so for each k * rows
+        # i-th Gaussian
+        for i in range(k):
+            temp = 0
+            temp2 = 0
+            # j-th input
+            # Mean calculation
+            for j in range(rows): 
+                temp += (p[i][j] * data[j]) # p[dimension][input], so go down the i'th column (dimension). Think of cross multiplication when it comes to dimensionality.
+            mean[i] = temp / sum(p[i])
+            
+            # Weight calculation
+            weight[i] = sum(p[i]) / sum(sum(p))
+
+            # Standard deviation calculation - covariance matrix
+            for r in range(columns):
+                for c in range(columns):
+                    for j in range(rows):
+                        temp2 += p[i][j] * (data[j][r] - mean[i][r]) * (data[j][c] - mean[i][c])
+                    if (temp2 / sum(p[i]) < 0.0001 and r == c):
+                        std[i][r][c] = 0.0001
+                    else:
+                        std[i][r][c] = temp2 / sum(p[i])
+
 
 em_cluster(argv[1], argv[2], argv[3])
