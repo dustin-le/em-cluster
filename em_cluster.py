@@ -73,10 +73,9 @@ def em_cluster(data_file, k, iterations):
             for j in range(rows):
                 for l in range(k):
                     pxj += (1 / np.sqrt((2 * np.pi)**columns * np.linalg.det(std[l]))) * np.exp(-1/2 * (data[j] - mean[l]).T @ np.linalg.pinv(std[l]) @ (data[j] - mean[l])) * weight[l]
-                # n = (1 / np.sqrt((2 * np.pi)**columns * np.linalg.det(std[i]))) * np.exp(-(np.linalg.solve(std[i], mean[i]).T.dot(mean[i])) / 2)
                 n += (1 / np.sqrt((2 * np.pi)**columns * np.linalg.det(std[i]))) * np.exp(-1/2 * (data[j] - mean[i]).T @ np.linalg.pinv(std[i]) @ (data[j] - mean[i])) * weight[i]
                 p[i][j] = n * weight[i] / pxj
-
+                
         # Output
         print('After iteration %d:' % (_ + 1))
         for i in range(k):
